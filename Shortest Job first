@@ -1,0 +1,74 @@
+/******************************************************************************
+
+Welcome to GDB Online.
+GDB online is an online compiler and debugger tool for C, C++, Python, Java, PHP, Ruby, Perl,
+C#, VB, Swift, Pascal, Fortran, Haskell, Objective-C, Assembly, HTML, CSS, JS, SQLite, Prolog.
+Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+#include <iostream>
+using namespace std;
+//int smallest(int at[],int np){
+ //   int small= at[0];
+//    for(int i=0;i<np;i++){
+ ///       if(at[i]<small){
+ //           small=at[i];
+//        }
+//    }
+    //cout<<small;
+//    return small;
+//}
+//int smallestoftwo(int at,int bt){
+ //   int small= at;
+//    if(bt<at){
+ //       small = bt;
+//    }
+//    return small;
+//}
+
+void SJF(int np,int at[],int bt[]){
+    int small =at[0];
+    int temp;
+    int ct[np];
+    int tat[np];
+    for(int i =0;i<np;i++){
+        
+        if(at[i]<small){
+            small=at[i];
+            temp = i;
+            break;
+        }
+    }
+    
+}
+int main()
+{
+    // SJF algorithm 
+    // no of processes
+    //arrival time
+    //CPU Burst time
+    int np;
+    int AT[10];
+    int BT[10];
+    cout<<"Enter the number of processes"<<endl;
+    cin>>np;
+    for(int i =0; i<np;i++)
+    {
+        cout<<"PROCESS "<<i+1<<endl;
+        cout<<"Enter the Arrival Time :: ";
+        cin>>AT[i];
+        cout<<"Enter the Burst Time :: ";
+        cin>>BT[i];
+    }
+    cout<<endl;
+    cout<<"Process \t|"<<"Arrival time\t|"<<"Burst time\t|"<<endl;
+    for(int j =0;j<np;j++){
+        
+        cout<<"P"<<j+1<<"\t\t|"<<AT[j]<<"\t\t|"<<BT[j]<<"\t\t|"<<endl;
+        
+    }
+    //smallest arrrival time
+    //smallest(AT,np);
+    //smallest(BT,np);
+    return 0;
+}
