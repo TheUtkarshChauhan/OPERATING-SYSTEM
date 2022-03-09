@@ -1,67 +1,117 @@
-
 #include <iostream>
+#include <string>
+#include <iomanip>
 using namespace std;
-//int smallest(int at[],int np){
- //   int small= at[0];
-//    for(int i=0;i<np;i++){
- ///       if(at[i]<small){
- //           small=at[i];
-//        }
-//    }
-    //cout<<small;
-//    return small;
-//}
-//int smallestoftwo(int at,int bt){
- //   int small= at;
-//    if(bt<at){
- //       small = bt;
-//    }
-//    return small;
-//}
-
-void SJF(int np,int at[],int bt[]){
-    int small =at[0];
+void swap(int *a, int *b)
+{
     int temp;
-    int ct[np];
-    int tat[np];
-    for(int i =0;i<np;i++){
-        
-        if(at[i]<small){
-            small=at[i];
-            temp = i;
-            break;
+    temp = (*a);
+    *a = *b;
+    *b = temp;
+}
+void display(int at[], int bt[], int p[], int np)
+{
+    cout << "Process "
+         << "\t|Arrival Time"
+         << "\t|Burst Time" << endl;
+
+    for (int i = 0; i < np; i++)
+    {
+        cout << p[i] << "\t\t| " << at[i] << "\t\t| " << bt[i] << endl;
+    }
+}
+void displaySJF(int at[], int bt[], int np, int tat[], int cp[], int p[])
+{
+    cout << "Process\t\t|Arrival Time\t|Burst TIme\t|Completion Time\t|Turn Around Time" << endl;
+    for (int i = 0; i < np; i++)
+    {
+        cout << p[i] << "\t\t|" << at[i] << "\t\t|" << bt[i] << "\t\t|" << cp[i] << "\t\t\t|" << tat[i] << endl;
+    }
+}
+int smallat(int np, int at[])
+{ /// for calculating smallest arrival time for a process
+    int temp = at[0];
+    int index;
+    for (int i = 0; i < np; i++)
+    {
+        if (at[i] <= temp)
+        {
+            temp = at[i];
+            index = i;
+            /* code */
+        }
+
+        /* code */
+    }
+    return index;
+}
+void SJF(int np, int at[], int bt[], int p[])
+{
+    int ct[np];  // For Completion Time
+    int tat[np]; // For Turn Around Time
+    // For first Job
+
+    int j = smallat(np, at);
+    swap(at[j], at[0]);          // swaping for the first value
+    swap(bt[j], bt[0]);          // swaping burst time
+    swap(p[j], p[0]);            // swapping process id
+    for (int i = 1; i < np; i++) // sorting process as per burst time
+    {
+        /* code */
+        for (int k = 1; k < np - i; k++)
+        {
+            /* code */
+            if (bt[k] > bt[k + 1])
+            {
+                swap(bt[k], bt[k + 1]);
+                swap(at[k], at[k + 1]);
+                swap(p[k], p[k + 1]);
+            }
         }
     }
-    
+    ct[0] = at[0] + bt[0];  // completion time for first process
+    tat[0] = ct[0] - at[0]; // turn around time
+    for (int i = 1; i <= np; i++)
+    {
+        /* code */
+        if (at[i] > ct[i - 1])
+        {
+            ct[i] = at[i];
+            ct[i] = ct[i] + bt[i];
+            tat[i] = ct[i] - at[i];
+        }
+        else
+        {
+            ct[i] = ct[i - 1] + bt[i];
+            tat[i] = ct[i] - at[i];
+        }
+    }
+    displaySJF(at, bt, np, tat, ct, p);
 }
 int main()
 {
-    // SJF algorithm 
-    // no of processes
-    //arrival time
-    //CPU Burst time
+    // Shortest Job First
+    // Shortest Arrival time first f
+    // then according to the burst time we will take the process
     int np;
-    int AT[10];
-    int BT[10];
-    cout<<"Enter the number of processes"<<endl;
-    cin>>np;
-    for(int i =0; i<np;i++)
+    int at[10];
+    int bt[10];
+    int p[10];
+    cout << "Enter the number of the processes ::" << endl;
+    cin >> np;
+
+    for (int i = 0; i < np; i++)
     {
-        cout<<"PROCESS "<<i+1<<endl;
-        cout<<"Enter the Arrival Time :: ";
-        cin>>AT[i];
-        cout<<"Enter the Burst Time :: ";
-        cin>>BT[i];
+        cout << "Enter the Process number ::" << endl;
+        cin >> p[i];
+        cout << "Enter the Arrival time for process : " << i + 1 << endl;
+        cin >> at[i];
+        cout << "Enter the Burst time for process : " << i + 1 << endl;
+        cin >> bt[i];
     }
-    cout<<endl;
-    cout<<"Process \t|"<<"Arrival time\t|"<<"Burst time\t|"<<endl;
-    for(int j =0;j<np;j++){
-        
-        cout<<"P"<<j+1<<"\t\t|"<<AT[j]<<"\t\t|"<<BT[j]<<"\t\t|"<<endl;
-        
-    }
-    //smallest arrrival time
-    //smallest(AT,np);
-    //smallest(BT,np);
+    display(at, bt, p, np);
+    // SJF();
+    // using SJF function
+    SJF(np, at, bt, p);
     return 0;
 }
